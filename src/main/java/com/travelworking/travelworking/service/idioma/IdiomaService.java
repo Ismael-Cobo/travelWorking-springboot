@@ -9,8 +9,12 @@ public interface IdiomaService {
     
     List<Idioma> findAll();
     
-    Optional<Idioma> findOneById(Long id);
+    List<Idioma> findAllById(List<Long> ids);
+    
+    Idioma findOneById(Long id);
     
     Idioma saveIdioma(Idioma idioma);
+    
+    Idioma updateIdioma(Idioma idioma);
     
 }

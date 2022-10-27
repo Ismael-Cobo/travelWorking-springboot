@@ -20,7 +20,7 @@ public class Trabajo implements Serializable {
     private Date fechaFin;
     
     @Column(length = 1000)
-    private String descipicion;
+    private String descripcion;
     
     @Column(length = 1000)
     private String ayuda;
@@ -36,7 +36,10 @@ public class Trabajo implements Serializable {
     
 //    @ManyToMany(mappedBy = "trabajosCliente")
 //    private List<Cliente> clientes;
-//
+
+    @OneToMany(mappedBy = "trabajo")
+    private List<TrabajoIdioma> trabajoIdiomas;
+    
     public Trabajo() {
     }
     
@@ -44,7 +47,7 @@ public class Trabajo implements Serializable {
         Long trabajoId,
         Date fechaInicio,
         Date fechaFin,
-        String descipicion,
+        String descripcion,
         String ayuda,
         String aprender,
         String paisResidencia,
@@ -53,7 +56,7 @@ public class Trabajo implements Serializable {
         this.trabajoId = trabajoId;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
-        this.descipicion = descipicion;
+        this.descripcion = descripcion;
         this.ayuda = ayuda;
         this.aprender = aprender;
         this.paisResidencia = paisResidencia;
@@ -85,11 +88,11 @@ public class Trabajo implements Serializable {
     }
     
     public String getDescipicion() {
-        return descipicion;
+        return descripcion;
     }
     
-    public void setDescipicion(String descipicion) {
-        this.descipicion = descipicion;
+    public void setDescipicion(String descripcion) {
+        this.descripcion = descripcion;
     }
     
     public String getAyuda() {
@@ -122,5 +125,21 @@ public class Trabajo implements Serializable {
     
     public void setLugarResidencia(String lugarResidencia) {
         this.lugarResidencia = lugarResidencia;
+    }
+    
+    public String getDescripcion() {
+        return descripcion;
+    }
+    
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+    
+    public List<TrabajoIdioma> getTrabajoIdiomas() {
+        return trabajoIdiomas;
+    }
+    
+    public void setTrabajoIdiomas(List<TrabajoIdioma> trabajoIdiomas) {
+        this.trabajoIdiomas = trabajoIdiomas;
     }
 }

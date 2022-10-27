@@ -7,9 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
-
 @RestController
 @RequestMapping("/api/idioma")
 public class IdiomasController {
@@ -23,11 +20,11 @@ public class IdiomasController {
     @GetMapping
     public ResponseEntity<Object> getAllIdiomas() {
         try {
-            List<Idioma> idiomas = idiomaService.findAll();
+            
             return ResponseHandler.generateResponse(
                     "Datos recibidos correctamente",
                     HttpStatus.OK,
-                    idiomas,
+                    idiomaService.findAll(),
                     true
             );
         } catch (Exception e) {
@@ -45,27 +42,16 @@ public class IdiomasController {
     public ResponseEntity<Object> getOneById(@PathVariable("id") Long id) {
         
         try {
-            
-            Optional<Idioma> optionalIdioma = idiomaService.findOneById(id);
-            
-            if (optionalIdioma.isEmpty())
-                return ResponseHandler.generateResponse(
-                        "El idioma " + id + " no existe",
-                        HttpStatus.NOT_FOUND,
-                        null,
-                        false
-                );
-            
             return ResponseHandler.generateResponse(
                     "El idioma " + id + " se ha recuperado",
                     HttpStatus.OK,
-                    optionalIdioma.get(),
+                    idiomaService.findOneById(id),
                     true
             );
             
         } catch (Exception e) {
             return ResponseHandler.generateResponse(
-                    "El idioma " + id + " no se ha podido recuperar",
+                    e.getMessage(),
                     HttpStatus.BAD_REQUEST,
                     null,
                     false
@@ -78,17 +64,15 @@ public class IdiomasController {
         
         try {
             
-            Idioma idiomaSaved = idiomaService.saveIdioma(idioma);
-            
             return ResponseHandler.generateResponse(
                     "El idioma se ha podido guardar",
                     HttpStatus.OK,
-                    idiomaSaved,
+                    idiomaService.saveIdioma(idioma),
                     true
             );
         } catch (Exception e) {
             return ResponseHandler.generateResponse(
-                    "El idioma no se ha podido guardar",
+                    e.getMessage(),
                     HttpStatus.BAD_REQUEST,
                     null,
                     false
@@ -96,31 +80,22 @@ public class IdiomasController {
         }
     }
     
-    @PutMapping("/{id}")
-    public ResponseEntity<Object> update(@PathVariable("id") Long id, @RequestBody Idioma idioma) {
+    @PutMapping
+    public ResponseEntity<Object> update(@RequestBody Idioma idioma) {
         
         try {
             
-            Optional<Idioma> optionalIdioma = idiomaService.findOneById(id);
-            if (optionalIdioma.isEmpty())
-                return ResponseHandler.generateResponse(
-                        "El idioma no se ha encontrado",
-                        HttpStatus.NOT_FOUND,
-                        null,
-                        false
-                );
-    
             return ResponseHandler.generateResponse(
                     "El idioma se ha actualizado",
                     HttpStatus.OK,
-                    idiomaService.saveIdioma(idioma),
+                    idiomaService.updateIdioma(idioma),
                     true
             );
             
             
         } catch (Exception e) {
             return ResponseHandler.generateResponse(
-                    "El idioma no se ha podido actualizar",
+                    e.getMessage(),
                     HttpStatus.BAD_REQUEST,
                     null,
                     false
